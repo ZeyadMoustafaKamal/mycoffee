@@ -1,0 +1,7 @@
+django
+requests
+psycopg2-binary
+python-dotenv
+django-filter
+pillow
+gunicorn
