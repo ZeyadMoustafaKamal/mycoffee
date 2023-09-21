@@ -2,7 +2,7 @@ import os
 
 bind = "0.0.0.0:8000"
 reload = True
-reload_extra_files = ["gunicorn_config.py"]
+reload_extra_files = ["gunicorn.config.py"]
 
 def get_files_from_dir(dir, suffix='.html'):
     """ This name and the paramers are exists just for the resuability """
