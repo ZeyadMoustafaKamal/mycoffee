@@ -23,9 +23,12 @@ django==4.2.5
     #   -r requirements.in
     #   django-debug-toolbar
     #   django-filter
+    #   django-htmx
 django-debug-toolbar==4.2.0
     # via -r requirements-dev.in
 django-filter==23.2
+    # via -r requirements.in
+django-htmx==1.16.0
     # via -r requirements.in
 gunicorn==21.2.0
     # via -r requirements.in

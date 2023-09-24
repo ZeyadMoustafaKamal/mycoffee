@@ -5,3 +5,4 @@ python-dotenv
 django-filter
 pillow
 gunicorn
+django-htmx
