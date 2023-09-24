@@ -1,5 +1,3 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django_filters.views import FilterView
@@ -15,6 +13,7 @@ class ListProductsView(FilterView):
     context_object_name = 'products'
     filterset_class = ProductFilter
 
+
     
 
 def product_details(request, pk):
@@ -25,8 +24,11 @@ def product_details(request, pk):
         if request.method == 'POST' and 'favourite' in request.POST:
             return JsonResponse(profile.toggle_product(product))
         is_favourite = product in profile.favourites.all()
-
-    return render(request, 'products/details.html', {'product':product, 'is_favourite':is_favourite})
+    if request.htmx:
+        template_name = 'products/parts/_details.html'
+    else:
+        template_name = 'products/details.html'
+    return render(request, template_name, {'product':product, 'is_favourite':is_favourite})
 def search_view(request):
     filter = ProductFilter()
     return render(request, 'products/search.html', {'filter':filter})

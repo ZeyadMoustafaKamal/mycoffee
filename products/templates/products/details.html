@@ -1,78 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="my-form container p-5 my-5 rounded border border-warning">
-    <form id="product-details">
-      {% csrf_token %}
-        <h2 class="text-center">Product Details</h2>
-        <hr>
-        <section>
-              <div class="row p-5 " >
-                <div class="card mb-3 w-100" >
-                  <div class="row no-gutters">
-                    <div class="col-md-4">
-                      <img src="{{product.image.url}}" style="height: 100%; object-fit: cover;" class="card-img" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title" id="productName">{{product.name}}</h5>
-                        <hr>
-                        <p class="card-text" id="description">{{product.description}}</p>
-                        <hr>
-                        <p class="card-text">Current Price: <span id="price" class="bg-dark text-light rounded-circle p-2">${{product.price}}</span></p>
-                        <hr>
-                        <button type="submit" class="btn btn-warning">Add To Cart</button>
-                        <button type="submit" name="favourite" class="btn btn-warning text-white">
-                          <i class=" 
-                          {% if is_favourite %}
-                          fa-solid
-                          {% else %}
-                          fa-regular 
-                          {% endif %}
-                            fa-star"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            
-        </section>
-    </form>
-</div>
+{% include "products/parts/_details.html" %}
 
 
 {% endblock content %}
 
 {% block java_script %}
-  <script>
+ 
+<script>
 
-    jQuery(document).ready(function () {
-      $("#product-details").submit(function (e) {
-          e.preventDefault();
-          var serializedData = $(this).serialize() + "&favourite";
+  jQuery(document).ready(function () {
+    $("#product-details").submit(function (e) {
+        e.preventDefault();
+        var serializedData = $(this).serialize() + "&favourite";
 
-          $.ajax({
-              type: 'POST',
-              url: "{{product.get_absolute_url}}",
-              data: serializedData,
-              success: function (data) {
-                  var star = document.querySelector(".fa-star");
-                  console.log(data)
-                  if (data.favourite) {
-                      star.classList.remove("fa-regular");
-                      star.classList.add("fa-solid");
-                  } else {
-                      star.classList.remove("fa-solid");
-                      star.classList.add("fa-regular");
-                  }
-              }
-          });
-      });
-  });
-  
+        $.ajax({
+            type: 'POST',
+            url: "{{product.get_absolute_url}}",
+            data: serializedData,
+            success: function (data) {
+                var star = document.querySelector(".fa-star");
+                console.log(data)
+                if (data.favourite) {
+                    star.classList.remove("fa-regular");
+                    star.classList.add("fa-solid");
+                } else {
+                    star.classList.remove("fa-solid");
+                    star.classList.add("fa-regular");
+                }
+            }
+        });
+    });
+});
+
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 {% endblock java_script %}
