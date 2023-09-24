@@ -1,3 +1,3 @@
 #!/bin/sh
 
-gunicorn -c gunicorn.config.py backend.wsgi:application
+python manage.py runserver 0.0.0.0:8000
