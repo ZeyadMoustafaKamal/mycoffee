@@ -1,0 +1,3 @@
+
+def htmx_template(func, template_name, context=None):
+    ...
