@@ -16,4 +16,4 @@ RUN python manage.py migrate \
     && python manage.py load_data
 RUN chmod += ./entrypoint.sh
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
