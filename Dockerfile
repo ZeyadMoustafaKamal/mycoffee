@@ -1,4 +1,4 @@
-FROM python:3.11.4-slim-buster
+FROM python:3.11-alpine
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN pip install --upgrade pip \
-    && pip install -r requirements-dev.txt 
+    && pip install --no-cache-dir -r requirements-dev.txt 
 COPY . /app
 RUN python manage.py migrate \
     && python manage.py collectstatic --noinput \
