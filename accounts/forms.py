@@ -28,7 +28,7 @@ class UserCreationForm(forms.ModelForm, metaclass=UserCreationFormMeta):
     class Meta:
         model = User
         fields = 'email', 'password', 'first_name', 'last_name'
-        exclude = 'user',
+        exclude = 'user', 'favourites'
 
     def __init__(self, data=None, *args, **kwargs):
         self.post_data = data 
