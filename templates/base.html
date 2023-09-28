@@ -13,7 +13,7 @@
 </head>
 <body>
     {% include '_navbar.html' %}
-    <div id="content" hx-history-elt>
+    <div id="content" hx-history-elt hx-before-swap="beforeSwap">
         {% block content %}{% endblock content %}
     </div>
     
@@ -32,10 +32,25 @@
                 $('[name="description__icontains"]').val($(this).val());
             });
         });
-        var links = document.querySelectorAll("a");
-        links.forEach(function(link) {
-            link.style.cursor = "pointer";
-        });
+        document.addEventListener("htmx:afterSwap", function(event){
+            applyHTMXAttributesToLinks(event.target)
+        })
+        applyHTMXAttributesToLinks(document)
+        function applyHTMXAttributesToLinks(element) {
+            const links = element.querySelectorAll("a");
+            links.forEach(function(link) {
+                if (link.hasAttribute("href")) {
+                    const hrefValue = link.getAttribute("href");
+                    link.setAttribute("hx-get", hrefValue);
+                }
+                if (!link.hasAttribute("hx-push-url")) {
+                    link.setAttribute("hx-push-url", "true");
+                }
+                if (!link.hasAttribute("hx-target")) {
+                    link.setAttribute("hx-target", "#content");
+                }
+            });
+        }
     </script>
     {% block java_script %}{% endblock java_script %}
 </body>

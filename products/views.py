@@ -7,16 +7,18 @@ from backend.utils import render_htmx
 
 from .models import Product
 from .filters import ProductFilter
+from backend.mixins import HTMXTemplateMixin
 
-class ListProductsView(FilterView):
+class ListProductsView(HTMXTemplateMixin, FilterView):
     model = Product
     template_name = 'products/list.html'
+    htmx_template = 'products/parts/_list.html'
     context_object_name = 'products'
     filterset_class = ProductFilter
 
 
 def product_details(request, pk):
-    is_favourite = None
+    is_favourite = False
     product = get_object_or_404(Product, pk=pk)
     context = {
         'product':product,

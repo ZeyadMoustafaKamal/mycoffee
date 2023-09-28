@@ -1,5 +1,5 @@
 <div class="my-form container p-5 my-5 rounded border border-warning">
-    <form id="product-details">
+    <form>
       {% csrf_token %}
         <h2 class="text-center">Product Details</h2>
         <hr>
@@ -20,50 +20,13 @@
                         <hr>
                         <button type="submit" class="btn btn-warning">Add To Cart</button>
                         <button type="submit" name="favourite" class="btn btn-warning text-white">
-                          <i class=" 
-                          {% if is_favourite %}
-                          fa-solid
-                          {% else %}
-                          fa-regular 
-                          {% endif %}
-                            fa-star"></i>
+                          <i id="favouriteIcon" class="{% if is_favourite %}fa-solid{% else %}fa-regular{% endif %} fa-star"></i>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
-            
         </section>
     </form>
 </div>
-
-<script>
-
-    jQuery(document).ready(function () {
-      $("#product-details").submit(function (e) {
-          e.preventDefault();
-          var serializedData = $(this).serialize() + "&favourite";
-
-          $.ajax({
-              type: 'POST',
-              url: "{{product.get_absolute_url}}",
-              data: serializedData,
-              success: function (data) {
-                  var star = document.querySelector(".fa-star");
-                  console.log(data)
-                  if (data.favourite) {
-                      star.classList.remove("fa-regular");
-                      star.classList.add("fa-solid");
-                  } else {
-                      star.classList.remove("fa-solid");
-                      star.classList.add("fa-regular");
-                  }
-              }
-          });
-      });
-  });
-  
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

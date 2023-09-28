@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.http import HttpRequest
 from django.contrib.auth import get_user_model, login as auth_login
 from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as BaseLogoutView
+
+from backend.utils import render_htmx
+from backend.mixins import HTMXTemplateMixin
 
 from .forms import UserCreationForm, AuthenticationForm
 
@@ -17,11 +20,12 @@ def signup(request: HttpRequest):
             auth_login(request, user)
     context = {}
     context['form'] = form
-    return render(request, 'registration/signup.html', context)
+    return render_htmx(request, 'registration/signup.html', 'registration/parts/_signup.html', context)
 
 
-class LoginView(BaseLoginView):
+class LoginView(HTMXTemplateMixin, BaseLoginView):
     form_class = AuthenticationForm
+    htmx_template = 'registration/parts/_login.html'
     def post(self, request, *args, **kwargs):
         if not 'remember' in request.POST:
             request.session.set_expiry(0)

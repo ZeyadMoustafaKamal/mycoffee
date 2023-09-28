@@ -6,34 +6,3 @@
 
 {% endblock content %}
 
-{% block java_script %}
- 
-<script>
-
-  jQuery(document).ready(function () {
-    $("#product-details").submit(function (e) {
-        e.preventDefault();
-        var serializedData = $(this).serialize() + "&favourite";
-
-        $.ajax({
-            type: 'POST',
-            url: "{{product.get_absolute_url}}",
-            data: serializedData,
-            success: function (data) {
-                var star = document.querySelector(".fa-star");
-                console.log(data)
-                if (data.favourite) {
-                    star.classList.remove("fa-regular");
-                    star.classList.add("fa-solid");
-                } else {
-                    star.classList.remove("fa-solid");
-                    star.classList.add("fa-regular");
-                }
-            }
-        });
-    });
-});
-
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{% endblock java_script %}
