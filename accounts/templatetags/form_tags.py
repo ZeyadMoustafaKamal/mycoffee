@@ -29,7 +29,7 @@ def as_bootstrap(form):
     return mark_safe(html)
 
 def render_field(field):
-    col_value = getattr(field.field, col_value, None)
+    col_value = getattr(field.field, 'col_value', None)
     context = {
         'col_value':col_value,
         'field':field
