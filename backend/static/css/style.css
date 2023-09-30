@@ -1,6 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap');
 
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?9daife');
+  src:  url('../fonts/icomoon.eot?9daife#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?9daife') format('truetype'),
+    url('../fonts/icomoon.woff?9daife') format('woff'),
+    url('../fonts/icomoon.svg?9daife#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html, body{
   height: 100%;
   width: 100%;
@@ -203,4 +229,11 @@ input[type=number]:focus,
 #price{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
+}
+
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-star-full:before {
+  content: "\e9d9";
 }
