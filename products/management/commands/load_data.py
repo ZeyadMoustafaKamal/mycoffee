@@ -1,6 +1,5 @@
 from django.core.management import BaseCommand
 from django.core.files.base import ContentFile
-import time
 from products.models import Product
 
 import random
@@ -17,9 +16,8 @@ class Command(BaseCommand):
             description = product['description']
             image = product['image']
         
-            price = ''.join([str(random.randint(1, 9)) for _ in range(4)])
-            formated_price = float('{}.{}'.format(price[:2], price[2:]))
-            prod = Product(name=name, description=description, price=formated_price)
+            price = random.uniform(10, 100)
+            prod = Product(name=name, description=description, price=round(price, 2))
             req = requests.get(image)
             if req.status_code == 200:
                 image_data = ContentFile(req.content)
@@ -27,6 +25,3 @@ class Command(BaseCommand):
                 prod.save()
 
         self.stdout.write('Success!!')
-
-
-
