@@ -11,7 +11,7 @@
 </head>
 <body>
     {% include '_navbar.html' %}
-    <div id="content" hx-history-elt hx-before-swap="beforeSwap">
+    <div id="content" hx-history-elt>
         {% block content %}{% endblock content %}
     </div>
     
@@ -31,13 +31,13 @@
             });
         });
         document.addEventListener("htmx:afterSwap", function(event){
-            console.log("Swapped")
+            $('[data-toggle="dropdown"]').dropdown(); // needed sometimes
             applyHTMXAttributesToLinks(event.target)
             window.scroll({
                 top: 0,
                 left: 0,
                 behavior: "smooth"
-            });            
+            });
         })
         applyHTMXAttributesToLinks(document)
         function applyHTMXAttributesToLinks(element) {

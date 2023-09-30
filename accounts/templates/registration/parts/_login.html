@@ -1,5 +1,5 @@
 <div class="my-form container p-4 my-5 rounded border border-warning">
-    <form method="POST"> {% csrf_token %}
+    <form method="POST" hx-post="." hx-target="#content"> {% csrf_token %}
         <h2 class="text-center">Sign In</h2>
         {% for error in form.non_field_errors %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
