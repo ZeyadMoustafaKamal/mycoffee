@@ -1,4 +1,4 @@
-from backend.utils import render_htmx
+from .utils import render_htmx
 
 from products.models import Product
 

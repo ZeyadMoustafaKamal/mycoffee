@@ -7,9 +7,9 @@ from django.contrib.auth.views import (
     LogoutView as BaseLogoutView
 )
 
-from backend.utils import render_htmx
-from backend.mixins import HTMXTemplateMixin
-from products.models import Product
+from core.utils import render_htmx
+from core.mixins import HTMXTemplateMixin
+from core.utils import HTMXRedirect
 
 from .forms import UserCreationForm, AuthenticationForm
 
@@ -23,8 +23,7 @@ def signup(request: HttpRequest):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-    context = {}
-    context['form'] = form
+    context = {'form':form}
     return render_htmx(
         request, 
         'registration/signup.html', 
@@ -41,29 +40,9 @@ class LoginView(HTMXTemplateMixin, BaseLoginView):
             request.session.set_expiry(0)
         return super().post(request, *args, **kwargs)
     def form_valid(self, form):
-        self.render_to_response
         auth_login(self.request, form.get_user())
-        # Now I should redirect the user to the index but all the solutions available will required reloading the page
-        # So The only way to do this is to render the index.html template and pass the context again but I still want
-        # to change this way to something better
         path = self.get_success_url()
-        products = Product.objects.all().order_by('-created_at')[:6]
-        template_name = 'core/index.html'
-        context = {
-            'products':products
-        }
-        headers = {
-            'HX-Push-Url':path,
-            'HX-Retarget':'body'
-        }
-        response = self.response_class(
-            request=self.request,
-            template=[template_name],
-            context=context,
-            headers=headers,
-        )
-        return response
-
+        return HTMXRedirect(path)
 
 class LogoutView(BaseLogoutView):
     template_name = 'registration/logout.html'

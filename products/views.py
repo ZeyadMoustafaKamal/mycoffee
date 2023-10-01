@@ -3,11 +3,11 @@ from django.http import JsonResponse
 from django_filters.views import FilterView
 
 from accounts.models import UserProfile
-from backend.utils import render_htmx
+from core.utils import render_htmx
+from core.mixins import HTMXTemplateMixin
 
 from .models import Product
 from .filters import ProductFilter
-from backend.mixins import HTMXTemplateMixin
 
 class ListProductsView(HTMXTemplateMixin, FilterView):
     model = Product
