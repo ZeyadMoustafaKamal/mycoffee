@@ -21,7 +21,7 @@
 - If you want to add a package that will be used just in the local environemnt then add it to the `requirements-dev.in` and compile it by running `pip-compile requirements-dev.in` then rebuild the container and if you are using docker or just install the dependencies again by running `pip install -r requirements-dev.txt`
 
 ### ToDo
-- Use HTMX in order to make the website feel like SPA applications
+- Use HTMX in order to make the website feel like SPA applications (Done)
 - Add unit test in order to test the website in a good way
 - Split docker and settings for local and production
 - Customize the admin panel 
