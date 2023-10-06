@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <title>{% block title %}My Coffee{% endblock title %}</title>
 </head>
 <body>
     {% include '_navbar.html' %}
-    {% block content %}{% endblock content %}
+    <div id="content" hx-history-elt>
+        {% block content %}{% endblock content %}
+    </div>
+    
     {% include '_footer.html' %}
+    <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -28,6 +30,33 @@
                 $('[name="description__icontains"]').val($(this).val());
             });
         });
+        document.addEventListener("htmx:afterSwap", function(event){
+            $('[data-toggle="dropdown"]').dropdown(); // needed sometimes
+            applyHTMXAttributesToLinks(event.target)
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
+        })
+        applyHTMXAttributesToLinks(document)
+        function applyHTMXAttributesToLinks(element) {
+            const links = element.querySelectorAll("a");
+            links.forEach(function(link) {
+                if (link.hasAttribute("href")) {
+                    const hrefValue = link.getAttribute("href");
+                    if (hrefValue != "#"){
+                        link.setAttribute("hx-get", hrefValue);
+                    }
+                }
+                if (!link.hasAttribute("hx-push-url")) {
+                    link.setAttribute("hx-push-url", "true");
+                }
+                if (!link.hasAttribute("hx-target")) {
+                    link.setAttribute("hx-target", "#content");
+                }
+            });
+        }
     </script>
     {% block java_script %}{% endblock java_script %}
 </body>

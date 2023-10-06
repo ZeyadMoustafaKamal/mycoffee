@@ -31,7 +31,7 @@
               {% else %}
                 <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">Profile</a>
+                <a class="dropdown-item" href="#">Profile</a>
               {% endif %}
             </div>
           </li>
@@ -60,9 +60,10 @@
           </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0" id="search-form" action="{% url 'list_products' %}">
+        <form class="form-inline my-2 my-lg-0" id="search-form" hx-get="{% url 'list_products' %}" hx-target="#content" hx-push-url=true>
         <input class="form-control mr-sm-2 remove-outline" id="search-input" type="search" name="name__icontains" placeholder="Search" aria-label="Search">
         <input type="hidden" name="description__icontains">
+        <input type="hidden" name="price__gt" value="0"> {% comment %} Need these two inputs to get accurate search results {% endcomment %}
         <div class="btn-group" role="group">
           <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
           <a href="{% url 'search' %}" class="btn btn-warning my-2 my-sm-0" type="submit">

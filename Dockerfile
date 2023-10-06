@@ -15,4 +15,5 @@ RUN python manage.py migrate \
     && python manage.py collectstatic --noinput \
     && python manage.py load_data
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ] 
