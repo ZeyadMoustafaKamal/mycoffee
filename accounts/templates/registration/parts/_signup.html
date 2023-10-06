@@ -1,8 +1,7 @@
 {% load form_tags %}
-
-<title>Sign-up</title>
 <div class="my-form container p-5 my-5 rounded border border-warning">
-    <form method="POST">{% csrf_token %}
+    <title>Sign-up</title>
+    <form method="POST" hx-post="." hx-target="#content">{% csrf_token %}
         <h2 class="text-center">Sign Up</h2><hr>
             {{form|as_bootstrap}}
             <div class="form-group">

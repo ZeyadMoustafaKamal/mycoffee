@@ -1,12 +1,5 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="my-form container p-5 my-5 rounded border border-warning h-50">
-    <div class="row w-100 d-flex justify-content-center"><h2>You are about to logout, are you sure ?</h2></div>
-    <div class="d-flex justify-content-center">
-        <form method="post"> {% csrf_token %}
-            <input type="submit" class="btn btn-warning" value="Logout">
-        </form>
-    </div>
-</div>
+    {% include 'registration/parts/_logout.html' %}
 {% endblock content %}

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 from django.http import HttpRequest
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model, login as auth_login
 from django.contrib.auth.views import (
     LoginView as BaseLoginView, 
@@ -23,6 +24,7 @@ def signup(request: HttpRequest):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            return HTMXRedirect(reverse('index'))
     context = {'form':form}
     return render_htmx(
         request, 
@@ -44,8 +46,10 @@ class LoginView(HTMXTemplateMixin, BaseLoginView):
         path = self.get_success_url()
         return HTMXRedirect(path)
 
-class LogoutView(BaseLogoutView):
+class LogoutView(HTMXTemplateMixin, BaseLogoutView):
     template_name = 'registration/logout.html'
+    htmx_template = 'registration/parts/_logout.html'
+    success_url = reverse_lazy('index')
 
     def get(self, request, *args, **kwargs):
         """ In django 4 I have to implement this method otherwise django will logout users when they issue a GET request
@@ -54,3 +58,7 @@ class LogoutView(BaseLogoutView):
         """
         context = self.get_context_data()
         return self.render_to_response(context)
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs) # This will be useful if django added some functionality to this view
+        return HTMXRedirect(self.success_url)
+        

@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="my-form container p-5 my-5 rounded border border-warning">
-        <form action="{% url 'list_products' %}">
+        <form hx-get="{% url 'list_products' %}" hx-target="#content" hx-push-url="true">
             <h2 class="text-center">Advanced Search</h2>
             <hr>
 
