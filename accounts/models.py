@@ -32,5 +32,5 @@ class UserProfile(models.Model):
             favourite = False
         else:
             self.favourites.add(product)
-        return {'favourite':favourite}
+        return favourite
 

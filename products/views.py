@@ -26,9 +26,10 @@ def product_details(request, pk):
     }
     if request.user.is_authenticated:
         profile = UserProfile.objects.prefetch_related('favourites').get(pk=request.user.pk)
-        if request.method == 'POST' and 'favourite' in request.POST:
-            return JsonResponse(profile.toggle_product(product))
         is_favourite = product in profile.favourites.all()
+        if request.method == 'POST' and 'favourite' in request.POST:
+            is_favourite = profile.toggle_product(product)
+            print(is_favourite)
         context['is_favourite'] = is_favourite
     return render_htmx(
         request, 
