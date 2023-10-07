@@ -23,5 +23,5 @@
 ### ToDo
 - [x] Use HTMX in order to make the website feel like SPA applications
 - [ ] Add unit test in order to test the website in a good way
-- [ ]Split docker and settings for local and production
-- [ ]Customize the admin panel 
+- [ ] Split docker and settings for local and production
+- [ ] Customize the admin panel 
