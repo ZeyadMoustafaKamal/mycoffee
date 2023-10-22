@@ -1,0 +1,90 @@
+[
+{
+    "model": "products.product",
+    "pk": 295,
+    "fields": {
+        "name": "Black",
+        "description": "Black coffee is as simple as it gets with ground coffee beans steeped in hot water, served warm. And if you want to sound fancy, you can call black coffee by its proper name: cafe noir.",
+        "price": "70.68",
+        "image": "product_images/Black.jpg",
+        "created_at": "2023-10-22T18:19:45.686Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 296,
+    "fields": {
+        "name": "Latte",
+        "description": "As the most popular coffee drink out there, the latte is comprised of a shot of espresso and steamed milk with just a touch of foam. It can be ordered plain or with a flavor shot of anything from vanilla to pumpkin spice.",
+        "price": "78.26",
+        "image": "product_images/Latte.jpg",
+        "created_at": "2023-10-22T18:19:47.251Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 297,
+    "fields": {
+        "name": "Cappuccino",
+        "description": "Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top. Sometimes you can find variations that use cream instead of milk or ones that throw in flavor shot, as well.",
+        "price": "36.43",
+        "image": "product_images/Cappuccino.jpg",
+        "created_at": "2023-10-22T18:19:48.736Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 298,
+    "fields": {
+        "name": "Lungo",
+        "description": "A lungo is a long-pull espresso. The longer the pull, the more caffeine there is and the more ounces you can enjoy.",
+        "price": "41.77",
+        "image": "product_images/Lungo.jpg",
+        "created_at": "2023-10-22T18:19:58.942Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 299,
+    "fields": {
+        "name": "Café au Lait",
+        "description": "Café au lait is perfect for the coffee minimalist who wants a bit more flavor. Just add a splash of warm milk to your coffee and you’re all set!",
+        "price": "93.26",
+        "image": "product_images/Café_au_Lait.jpg",
+        "created_at": "2023-10-22T18:20:07.408Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 300,
+    "fields": {
+        "name": "Guayoyo",
+        "description": "Traditional venezuelan coffee prepared by filtering the ground coffee in a cone of cloth and pouring hot water on top of it. It's prefferably drinked wihout milk nor cream.",
+        "price": "74.68",
+        "image": "product_images/Guayoyo.jpg",
+        "created_at": "2023-10-22T18:20:10.158Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 301,
+    "fields": {
+        "name": "Black2",
+        "description": "Black coffee is as simple as it gets with ground coffee beans steeped in hot water, served warm. And if you want to sound fancy, you can call black coffee by its proper name: cafe noir.",
+        "price": "38.99",
+        "image": "product_images/Black2.jpg",
+        "created_at": "2023-10-22T18:20:14.107Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 302,
+    "fields": {
+        "name": "Black2",
+        "description": "Black coffee is as simple as it gets with ground coffee beans steeped in hot water, served warm. And if you want to sound fancy, you can call black coffee by its proper name: cafe noir.",
+        "price": "45.86",
+        "image": "product_images/Black2_vA1z1rf.jpg",
+        "created_at": "2023-10-22T18:20:15.518Z"
+    }
+}
+]
