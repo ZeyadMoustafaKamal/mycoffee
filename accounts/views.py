@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.http import HttpRequest
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model, login as auth_login
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.views import (
     LoginView as BaseLoginView, 
     LogoutView as BaseLogoutView
@@ -13,6 +15,10 @@ from core.mixins import HTMXTemplateMixin
 from core.utils import HTMXRedirect
 
 from .forms import UserCreationForm, AuthenticationForm
+from .utils import send_activation_token
+from .tokens import account_activation_token_generator
+
+import threading # TODO: Use celery instead of threading
 
 User = get_user_model()
 
@@ -22,9 +28,11 @@ def signup(request: HttpRequest):
     form = UserCreationForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            return HTMXRedirect(reverse('index'))
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            threading.Thread(target=send_activation_token, args=(request, user)).start()
+            return HTMXRedirect(reverse('confirm_email'))
     context = {'form':form}
     return render_htmx(
         request, 
@@ -32,6 +40,28 @@ def signup(request: HttpRequest):
         'registration/parts/_signup.html', 
         context
     )
+
+def confirm_email(request):
+    return render_htmx(
+        request,
+        'registration/confirm_email.html',
+        'registration/parts/_confirm_email.html'
+    )
+
+def activate_email(request, uidb64, token):
+    # I should use POST requests for activating but I will just use GET for now
+    # TODO: Use a POST reqeust instead of GET
+    try:
+        uid = urlsafe_base64_decode(force_str(uidb64))
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, TypeError, ValueError, OverflowError):
+        user = None
+    if user is not None and account_activation_token_generator.check_token(user, token):
+        # TODO: implement a way to send a message to the user that says that the email is activated now
+        user.is_active = True
+        user.save()
+    return redirect(reverse('index'))
+
 
 
 class LoginView(HTMXTemplateMixin, BaseLoginView):

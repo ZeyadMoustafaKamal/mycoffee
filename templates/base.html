@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
     <title>{% block title %}My Coffee{% endblock title %}</title>
 </head>
-<body>
+<body class="min-vh-100 d-flex flex-column">
     {% include '_navbar.html' %}
     <div id="content" hx-history-elt>
         {% block content %}{% endblock content %}

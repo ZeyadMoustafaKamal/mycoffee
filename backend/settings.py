@@ -95,7 +95,7 @@ POSTGRES_NAME = os.environ.get('POSTGRES_USER')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 POSTGRES_DB = os.environ.get('POSTGRES_DB')
 
-if POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB: # In order to allow devs to choose between using docker or not
+if POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB: # Assume that the other devs may don't want to use docker with postgres
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -152,11 +152,18 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# mail conf
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    #TODO: Update this to fit both local and production
 
 # extra conf
 
