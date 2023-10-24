@@ -1,5 +1,5 @@
 Hello {{name}} !
 Please click on this link to confirm this email address {{email}}
 
-{{protocol}}{{domain}}{% url 'activate_email' uidb64=uid token=token %}
+{{protocol}}://{{domain}}{% url 'activate_email' uidb64=uid token=token %}
 

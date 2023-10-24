@@ -9,6 +9,7 @@ from django.contrib.auth.views import (
     LoginView as BaseLoginView, 
     LogoutView as BaseLogoutView
 )
+from django.contrib import messages
 
 from core.utils import render_htmx
 from core.mixins import HTMXTemplateMixin
@@ -49,18 +50,32 @@ def confirm_email(request):
     )
 
 def activate_email(request, uidb64, token):
-    # I should use POST requests for activating but I will just use GET for now
-    # TODO: Use a POST reqeust instead of GET
     try:
         uid = urlsafe_base64_decode(force_str(uidb64))
         user = User.objects.get(pk=uid)
     except (User.DoesNotExist, TypeError, ValueError, OverflowError):
         user = None
-    if user is not None and account_activation_token_generator.check_token(user, token):
-        # TODO: implement a way to send a message to the user that says that the email is activated now
-        user.is_active = True
-        user.save()
-    return redirect(reverse('index'))
+
+    if user is None:
+        messages.error(request, "This URL is invalid or expired please try again later !!")
+        return redirect(reverse('index'))
+
+    if request.method == 'POST':
+        if account_activation_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.success(request, "This account is activated successfully you can login now !!")
+            return HTMXRedirect(reverse('index'))
+        else:
+            messages.error(request, "This URL is invalid or expired please try again later !!")
+    context = {}
+    context['email'] = user.email
+    return render_htmx(
+        request, 
+        'registration/activation_email_confirm.html',
+        'registration/parts/_activation_email_confirm.html',
+        context
+    )
 
 
 
