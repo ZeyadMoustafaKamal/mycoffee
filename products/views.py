@@ -2,9 +2,10 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django_filters.views import FilterView
 
+from htmx.base import render_htmx
+from htmx.mixins import HTMXTemplateMixin
+
 from accounts.models import UserProfile
-from core.utils import render_htmx
-from core.mixins import HTMXTemplateMixin
 
 from .models import Product
 from .filters import ProductFilter

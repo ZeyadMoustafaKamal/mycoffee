@@ -1,4 +1,3 @@
-
 class HTMXTemplateMixin:
     htmx_template = None
     def get_template_names(self):

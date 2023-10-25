@@ -1,4 +1,4 @@
-from .utils import render_htmx
+from htmx.base import render_htmx
 
 from products.models import Product
 

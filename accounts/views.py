@@ -11,9 +11,8 @@ from django.contrib.auth.views import (
 )
 from django.contrib import messages
 
-from core.utils import render_htmx
-from core.mixins import HTMXTemplateMixin
-from core.utils import HTMXRedirect
+from htmx.base import render_htmx, HTMXRedirect
+from htmx.mixins import HTMXTemplateMixin
 
 from .forms import UserCreationForm, AuthenticationForm
 from .utils import send_activation_token
