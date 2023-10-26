@@ -1,14 +1,13 @@
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 
+from accounts.models import UserProfile
 from htmx.base import render_htmx
 from htmx.mixins import HTMXTemplateMixin
 
-from accounts.models import UserProfile
-
-from .models import Product
 from .filters import ProductFilter
+from .models import Product
 
 User = get_user_model()
 
@@ -53,7 +52,7 @@ def product_details(request, pk):
 
 
 def search_view(request):
-    filter = ProductFilter()
+    filter = ProductFilter()  # noqa: A001
     return render_htmx(
         request,
         'product/search.html',

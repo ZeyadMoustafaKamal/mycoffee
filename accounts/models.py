@@ -1,7 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 from products.models import Product
+
 from .tokens import account_activation_token_generator
 
 

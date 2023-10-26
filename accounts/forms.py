@@ -1,13 +1,12 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
+from django.contrib.auth.forms import PasswordChangeForm as BasePasswordChangeForm
 from django.forms.models import ModelFormMetaclass, fields_for_model
-from django.contrib.auth.forms import (
-    AuthenticationForm as BaseAuthenticationForm,
-    PasswordChangeForm as BasePasswordChangeForm
-)
+
+from core.bootstrap.forms import BootstrapForm
 
 from .models import UserProfile
-from core.bootstrap.forms import BootstrapForm
 
 User = get_user_model()
 

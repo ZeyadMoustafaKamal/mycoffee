@@ -1,7 +1,5 @@
-from django_htmx.middleware import (
-    HtmxMiddleware as BaseHTMXMiddeware,
-    HtmxDetails as BaseHTMXDetails
-)
+from django_htmx.middleware import HtmxDetails as BaseHTMXDetails
+from django_htmx.middleware import HtmxMiddleware as BaseHTMXMiddeware
 
 
 class HTMXMiddleware(BaseHTMXMiddeware):

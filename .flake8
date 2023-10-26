@@ -1,5 +1,5 @@
 [flake8]
-
+ignore = C101, Q000, Q003
 exclude = 
     .git,
     .venv,

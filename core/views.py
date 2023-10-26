@@ -1,5 +1,4 @@
 from htmx.base import render_htmx
-
 from products.models import Product
 
 

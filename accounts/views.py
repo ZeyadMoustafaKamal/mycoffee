@@ -1,25 +1,19 @@
-from django.shortcuts import redirect
-from django.http import HttpRequest
-from django.urls import reverse, reverse_lazy
-from django.contrib.auth import get_user_model
-from django.contrib.auth.views import (
-    LoginView as BaseLoginView,
-    LogoutView as BaseLogoutView,
-    PasswordChangeView as BasePasswordChangeView,
-)
-from django.contrib import messages
-
-from htmx.base import render_htmx, HTMXRedirect
-from htmx.mixins import HTMXTemplateMixin, HTMXRedirectMixin
-
-from .forms import (
-    UserCreationForm,
-    AuthenticationForm,
-    PasswordChangeForm
-)
-from .utils import send_activation_token, get_user_from_uidb64
-
 import threading  # TODO: Use celery instead of threading
+
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.contrib.auth.views import PasswordChangeView as BasePasswordChangeView
+from django.http import HttpRequest
+from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
+
+from htmx.base import HTMXRedirect, render_htmx
+from htmx.mixins import HTMXRedirectMixin, HTMXTemplateMixin
+
+from .forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
+from .utils import get_user_from_uidb64, send_activation_token
 
 User = get_user_model()
 
