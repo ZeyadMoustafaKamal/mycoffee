@@ -1,5 +1,5 @@
-<div class="form-group {% if col_value %}col-md-{{col_value}}{% endif %}">
-    <label for="{{field.id_for_label}}">{{field.label_tag}}</label>
+
+<label for="{{field.id_for_label}}">{{field.label_tag}}</label>
     {{field}}
     {% if field.errors %}
         {% for error in field.errors %}
@@ -8,4 +8,3 @@
         </div>
         {% endfor %}
     {% endif %}
-</div>

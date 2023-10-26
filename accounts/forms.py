@@ -1,4 +1,3 @@
-from typing import Any
 from django import forms
 from django.contrib.auth import get_user_model
 from django.forms.models import ModelFormMetaclass, fields_for_model
@@ -8,6 +7,7 @@ from django.contrib.auth.forms import (
 )
 
 from .models import UserProfile
+from core.bootstrap.forms import BootstrapForm
 
 User = get_user_model()
 
@@ -26,57 +26,17 @@ class UserCreationFormMeta(ModelFormMetaclass):
         return new_class
 
 
-class UserCreationForm(forms.ModelForm, metaclass=UserCreationFormMeta):
+class UserCreationForm(
+    BootstrapForm,
+    forms.ModelForm,
+    metaclass=UserCreationFormMeta
+):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
         fields = 'email', 'password', 'first_name', 'last_name'
         exclude = 'user', 'favourites'
-
-    def __init__(self, data=None, *args, **kwargs):
-        self.post_data = data
-        super().__init__(data, *args, **kwargs)
-        """ I want to add something for the fields to make the user experience better.
-            Some of bootstrap fields can be like this
-                <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required>
-                </div>
-            but I can add two fields in the same line like this
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputFirstName">First Name</label>
-                        <input type="text" class="form-control" id="inputFirstName" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputLastName">Last Name</label>
-                        <input type="text" class="form-control" id="inputLastName" required>
-                    </div>
-                </div>
-            so I think it will be better if I added the col_value which will be added for the class of the field like
-            this "col-md-<col_value>" I will hardcode it for now and I may change it later
-            TODO: Improve the field classes implementation
-            but hey I can just use normal HTML and take care of the names of the fields then why I need all of this.
-            well its all because I want to follow DRY as I want a way to show the user some details about the invaid
-            fields and if I displayed the normal HTML then I will have to come to every field and add some logic to
-            display the error so I thing doing this will be fine it didn't take a lot of time as I expected
-           """
-        col_classes = [
-            {'fields': ['first_name', 'last_name'], 'col_values': [6, 6]},
-            {'fields': ['city', 'state', 'zip_code'], 'col_values': [6, 4, 2]}
-        ]
-        for field_name, field in self.fields.items():
-            class_attr = 'form-control'
-            if field_name in self.errors:
-                class_attr += ' is-invalid'
-            for col_item in col_classes:
-                if field_name in col_item['fields']:
-                    # In order to use it in the template tag implementation
-                    field_index = col_item['fields'].index(field_name)
-                    col_value = col_item['col_values'][field_index]
-                    setattr(field, 'col_value', col_value)
-            field.widget.attrs['class'] = class_attr
 
     def clean_zip_code(self):
         zip_code = self.cleaned_data.get('zip_code')
@@ -85,7 +45,7 @@ class UserCreationForm(forms.ModelForm, metaclass=UserCreationFormMeta):
         return zip_code
 
     def clean(self):
-        if 'terms' not in self.post_data:
+        if 'terms' not in self.data:
             raise forms.ValidationError('You have to agree for the agreement first', code='terms')
         return super().clean()
 
@@ -100,23 +60,14 @@ class UserCreationForm(forms.ModelForm, metaclass=UserCreationFormMeta):
         user_profile.save()
         return user
 
-
-class AuthenticationForm(BaseAuthenticationForm):
-    def __init__(self, request, *args, **kwargs):
-        super().__init__(request, *args, **kwargs)
-        for field_name, field in self.fields.items():
-            class_attr = 'form-control'
-            if field_name in self.errors:
-                class_attr += ' is-invalid'
-            field.widget.attrs['class'] = class_attr
+    @property
+    def terms_errors(self):
+        return [error.message for error in self.non_field_errors().as_data() if error.code == 'terms']
 
 
-class PasswordChangeForm(BasePasswordChangeForm):
-    def __init__(self, user, *args, **kwargs: Any):
-        super().__init__(user, *args, **kwargs)
-        print(self.errors)
-        for field_name, field in self.fields.items():
-            class_attr = 'form-control'
-            if field_name in self.errors:
-                class_attr += ' is-invalid'
-            field.widget.attrs['class'] = class_attr
+class AuthenticationForm(BootstrapForm, BaseAuthenticationForm):
+    pass
+
+
+class PasswordChangeForm(BootstrapForm, BasePasswordChangeForm):
+    pass

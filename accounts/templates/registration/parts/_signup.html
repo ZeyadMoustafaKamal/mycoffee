@@ -1,12 +1,43 @@
-{% load form_tags %}
+{% load bootstrap %}
 <div class="my-form container p-5 my-5 rounded border border-warning">
     <title>Sign-up</title>
     <form method="POST" hx-post="." hx-target="#content">{% csrf_token %}
         <h2 class="text-center">Sign Up</h2><hr>
-            {{form|as_bootstrap}}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.first_name|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-6">
+                    {{form.last_name|as_bootstrap}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{form.address1|as_bootstrap}}
+            </div>
+            <div class="form-group">
+                {{form.address2|as_bootstrap}}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.city|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-4">
+                    {{form.state|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-2">
+                    {{form.zip_code|as_bootstrap}}
+                </div>
+            </div>
+            <div class="form-row">
+                {{form.email|as_bootstrap}}
+            </div>
+            <div class="form-row">
+                {{form.password|as_bootstrap}}
+            </div> <br>
             <div class="form-group">
                 <div class="pretty p-svg p-curve p-jelly">
-                    <input type="checkbox" class="is-invalid" name="terms" id="inputTerms" />
+                    <input type="checkbox" name="terms" id="inputTerms"/>
                     <div class="state p-warning">
                         <!-- svg path -->
                         <svg class="svg svg-icon" viewBox="0 0 20 20">
@@ -15,15 +46,17 @@
                         <label for="#inputTerms">I agree to the terms of use and privacy policy</label>
                     </div>
                 </div>
-                <input type="hidden" class="is-invalid" > {% comment %} If I didn't add this the style will be broken {% endcomment %}
+                <input type="hidden" class="is-invalid"> {% comment %} If I didn't add this the style will be broken {% endcomment %}
 
-                {% for error in form.non_field_errors.get_json_data %}
-                    {% if error.code == 'terms' %}
-                        <div class="invalid-feedback">
-                            {{error.message}}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                
+                {% if form.terms_errors %}
+                    {% for error in form.terms_errors %}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                    
             </div>
         <button type="submit" class="btn btn-warning">Sign Up</button>
     </form>

@@ -58,7 +58,7 @@ def activate_email(request, uidb64, token):
         messages.error(request, "This URL is invalid or expired please try again later !!")
         return redirect(reverse('index'))
     if request.method == 'POST':
-        if user.active_from_token(token):
+        if user.activate_from_token(token):
             messages.success(request, "This account is activated successfully you can login now !!")
             return HTMXRedirect(reverse('index'))
         else:
