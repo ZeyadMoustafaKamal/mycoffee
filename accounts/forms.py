@@ -1,7 +1,11 @@
+from typing import Any
 from django import forms
 from django.contrib.auth import get_user_model
 from django.forms.models import ModelFormMetaclass, fields_for_model
-from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
+from django.contrib.auth.forms import (
+    AuthenticationForm as BaseAuthenticationForm,
+    PasswordChangeForm as BasePasswordChangeForm
+)
 
 from .models import UserProfile
 
@@ -100,6 +104,17 @@ class UserCreationForm(forms.ModelForm, metaclass=UserCreationFormMeta):
 class AuthenticationForm(BaseAuthenticationForm):
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
+        for field_name, field in self.fields.items():
+            class_attr = 'form-control'
+            if field_name in self.errors:
+                class_attr += ' is-invalid'
+            field.widget.attrs['class'] = class_attr
+
+
+class PasswordChangeForm(BasePasswordChangeForm):
+    def __init__(self, user, *args, **kwargs: Any):
+        super().__init__(user, *args, **kwargs)
+        print(self.errors)
         for field_name, field in self.fields.items():
             class_attr = 'form-control'
             if field_name in self.errors:

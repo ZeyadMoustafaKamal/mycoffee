@@ -1,10 +1,13 @@
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
 
 from .tokens import account_activation_token_generator
+
+User = get_user_model()
 
 
 def send_activation_token(request, user):
@@ -31,3 +34,16 @@ def send_activation_token(request, user):
         from_email=None,
         recipient_list=[user.email]
     )
+
+
+def get_user_from_uidb64(uidb64):
+    """ Used to get the user from the uid64 and the token
+        which is in the confirmation url that will be sent to the user
+    """
+    try:
+        uid = urlsafe_base64_decode(force_str(uidb64))
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, TypeError, ValueError, OverflowError):
+        return None
+    else:
+        return user
