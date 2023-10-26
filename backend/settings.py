@@ -39,7 +39,6 @@ INSTALLED_APPS = [
 ]
 
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -85,7 +84,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
 
     }
 }
@@ -95,15 +94,16 @@ POSTGRES_NAME = os.environ.get('POSTGRES_USER')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 POSTGRES_DB = os.environ.get('POSTGRES_DB')
 
-if POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB: # Assume that the other devs may don't want to use docker with postgres
+# Assume that the other devs may don't want to use docker with postgres
+if POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'USER': POSTGRES_NAME,
-            'PASSWORD':POSTGRES_PASSWORD,
-            'NAME':POSTGRES_NAME,
-            'HOST':'db',
-            'PORT':5432
+            'PASSWORD': POSTGRES_PASSWORD,
+            'NAME': POSTGRES_NAME,
+            'HOST': 'db',
+            'PORT': 5432
 
         }
     }
@@ -159,21 +159,21 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Messages framework conf
-from django.contrib.messages import constants as messages
+from django.contrib.messages import constants as messages  # noqa: E402
 
 MESSAGE_TAGS = {
-    messages.ERROR:'danger' 
+    messages.ERROR: 'danger'
 }
 
 # mail conf
 
 if DEBUG:
+    # TODO: Update this to fit both local and production
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    #TODO: Update this to fit both local and production
+
 
 # extra conf
 
 LOGIN_REDIRECT_URL = 'index'
 
 LOGOUT_REDIRECT_URL = 'login'
-

@@ -12,6 +12,7 @@ from .filters import ProductFilter
 
 User = get_user_model()
 
+
 class ListProductsView(HTMXTemplateMixin, FilterView):
     model = Product
     template_name = 'products/list.html'
@@ -27,27 +28,29 @@ def product_details(request, pk):
     profile: UserProfile = UserProfile.objects.prefetch_related('favourites').get(user=request.user) \
         if request.user.is_authenticated else None
     product = get_object_or_404(Product, pk=pk)
-    
+
     # I don' want to know if the product is in the favourite list or not if "favourite" in the POST data
-    # as I will know this in the toggle_product method of the UserProfile model below 
+    # as I will know this in the toggle_product method of the UserProfile model below
     is_favourite = False if request.user.is_anonymous or 'favourite' in request.POST else \
         product in profile.favourites.all()
     # I am doing this in a different way as I see alot of people do something like this
     # if request.method == 'POST' and 'favourite' in request.POST
     # and I think that it will be better to just say "if 'favourite' in request.POST"
-    # Because if the request is not POST the request.POST will return something like an empty dict (its actually an extended dict)
+    # Because if the request is not POST the request.POST will return something
+    # like an empty dict (its actually an extended dict)
     if 'favourite' in request.POST and request.user.is_authenticated:
         is_favourite = profile.toggle_product(product)
     context = {
-        'product':product,
-        'is_favourite':is_favourite
+        'product': product,
+        'is_favourite': is_favourite
     }
     return render_htmx(
-        request, 
-        'products/details.html', 
-        'products/parts/_details.html', 
+        request,
+        'products/details.html',
+        'products/parts/_details.html',
         context
     )
+
 
 def search_view(request):
     filter = ProductFilter()
@@ -56,7 +59,6 @@ def search_view(request):
         'product/search.html',
         'products/parts/_search.html',
         {
-            'filter':filter
+            'filter': filter
         }
     )
-

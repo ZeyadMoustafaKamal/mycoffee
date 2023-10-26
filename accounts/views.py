@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 from django.http import HttpRequest
 from django.urls import reverse, reverse_lazy
@@ -6,7 +5,7 @@ from django.contrib.auth import get_user_model, login as auth_login
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.views import (
-    LoginView as BaseLoginView, 
+    LoginView as BaseLoginView,
     LogoutView as BaseLogoutView
 )
 from django.contrib import messages
@@ -18,9 +17,10 @@ from .forms import UserCreationForm, AuthenticationForm
 from .utils import send_activation_token
 from .tokens import account_activation_token_generator
 
-import threading # TODO: Use celery instead of threading
+import threading  # TODO: Use celery instead of threading
 
 User = get_user_model()
+
 
 def signup(request: HttpRequest):
     if request.user.is_authenticated:
@@ -33,13 +33,14 @@ def signup(request: HttpRequest):
             user.save()
             threading.Thread(target=send_activation_token, args=(request, user)).start()
             return HTMXRedirect(reverse('confirm_email'))
-    context = {'form':form}
+    context = {'form': form}
     return render_htmx(
-        request, 
-        'registration/signup.html', 
-        'registration/parts/_signup.html', 
+        request,
+        'registration/signup.html',
+        'registration/parts/_signup.html',
         context
     )
+
 
 def confirm_email(request):
     return render_htmx(
@@ -48,14 +49,12 @@ def confirm_email(request):
         'registration/parts/_confirm_email.html'
     )
 
+
 def activate_email(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(force_str(uidb64))
         user = User.objects.get(pk=uid)
     except (User.DoesNotExist, TypeError, ValueError, OverflowError):
-        user = None
-
-    if user is None:
         messages.error(request, "This URL is invalid or expired please try again later !!")
         return redirect(reverse('index'))
 
@@ -70,25 +69,27 @@ def activate_email(request, uidb64, token):
     context = {}
     context['email'] = user.email
     return render_htmx(
-        request, 
+        request,
         'registration/activation_email_confirm.html',
         'registration/parts/_activation_email_confirm.html',
         context
     )
 
 
-
 class LoginView(HTMXTemplateMixin, BaseLoginView):
     form_class = AuthenticationForm
     htmx_template = 'registration/parts/_login.html'
+
     def post(self, request, *args, **kwargs):
-        if not 'remember' in request.POST:
+        if 'remember' not in request.POST:
             request.session.set_expiry(0)
         return super().post(request, *args, **kwargs)
+
     def form_valid(self, form):
         auth_login(self.request, form.get_user())
         path = self.get_success_url()
         return HTMXRedirect(path)
+
 
 class LogoutView(HTMXTemplateMixin, BaseLogoutView):
     template_name = 'registration/logout.html'
@@ -96,13 +97,14 @@ class LogoutView(HTMXTemplateMixin, BaseLogoutView):
     success_url = reverse_lazy('index')
 
     def get(self, request, *args, **kwargs):
-        """ In django 4 I have to implement this method otherwise django will logout users when they issue a GET request
-            but please note that this will be removed in django 5 and django will not allow users to logout in GET since it's
-            not secure
+        """ In django 4 I have to implement this method otherwise django will logout users when they issue a GET
+            request but please note that this will be removed in django 5 and django will not allow users to logout
+            in GET since it's not secure
         """
         context = self.get_context_data()
         return self.render_to_response(context)
+
     def post(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs) # This will be useful if django added some functionality to this view
+        # This will be useful if django added some functionality to this view
+        super().post(request, *args, **kwargs)
         return HTMXRedirect(self.success_url)
-        

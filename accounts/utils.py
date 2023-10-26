@@ -16,13 +16,13 @@ def send_activation_token(request, user):
     token = account_activation_token_generator.make_token(user)
     protocol = 'https' if request.is_secure() else 'http'
     message = render_to_string(
-        'registration/activation_email_template.html',{
-            'domain':domain,
-            'email':user.email,
-            'name':name,
-            'uid':uid,
-            'token':token,
-            'protocol':protocol
+        'registration/activation_email_template.html', {
+            'domain': domain,
+            'email': user.email,
+            'name': name,
+            'uid': uid,
+            'token': token,
+            'protocol': protocol
         }
     )
     send_mail(
@@ -30,7 +30,4 @@ def send_activation_token(request, user):
         message=message,
         from_email=None,
         recipient_list=[user.email]
-        
     )
-
-

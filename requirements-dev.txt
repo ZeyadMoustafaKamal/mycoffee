@@ -26,10 +26,14 @@ django-filter==23.2
     # via -r requirements.in
 django-htmx==1.16.0
     # via -r requirements.in
+flake8==6.1.0
+    # via -r requirements-dev.in
 gunicorn==21.2.0
     # via -r requirements.in
 idna==3.4
     # via requests
+mccabe==0.7.0
+    # via flake8
 packaging==23.1
     # via
     #   build
@@ -40,6 +44,10 @@ pip-tools==7.3.0
     # via -r requirements-dev.in
 psycopg2-binary==2.9.7
     # via -r requirements.in
+pycodestyle==2.11.1
+    # via flake8
+pyflakes==3.1.0
+    # via flake8
 pyproject-hooks==1.0.0
     # via build
 python-dotenv==1.0.0

@@ -3,14 +3,15 @@ from django.contrib.auth.models import AbstractUser
 
 from products.models import Product
 
+
 class User(AbstractUser):
-    _, _, _, email_kwargs = AbstractUser._meta.get_field('email').deconstruct()
-    email = models.EmailField(unique=True, **email_kwargs) # If django made an update for this field I want it to work with this update
+    email = models.EmailField(unique=True)
     username = None
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ()
-    
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
@@ -33,4 +34,3 @@ class UserProfile(models.Model):
         else:
             self.favourites.add(product)
         return favourite
-

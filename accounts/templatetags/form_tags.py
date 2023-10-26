@@ -6,7 +6,8 @@ from functools import lru_cache
 
 register = template.Library()
 
-@lru_cache() # cache it
+
+@lru_cache()
 @register.filter(name='as_bootstrap')
 def as_bootstrap(form):
     html = """  """
@@ -28,11 +29,12 @@ def as_bootstrap(form):
                 html += '</div>\n'
     return mark_safe(html)
 
+
 def render_field(field):
     col_value = getattr(field.field, 'col_value', None)
     context = {
-        'col_value':col_value,
-        'field':field
+        'col_value': col_value,
+        'field': field
     }
     html = render_to_string('bootstrap/field.html', context)
     return html
