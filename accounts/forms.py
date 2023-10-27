@@ -1,7 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm
-from django.contrib.auth.forms import PasswordChangeForm as BasePasswordChangeForm
+
+from django.contrib.auth.forms import (  # isort: split
+    AuthenticationForm as BaseAuthenticationForm,
+    PasswordChangeForm as BasePasswordChangeForm,
+    PasswordResetForm as BasePasswordResetForm
+)
 from django.forms.models import ModelFormMetaclass, fields_for_model
 
 from core.bootstrap.forms import BootstrapForm
@@ -69,4 +73,8 @@ class AuthenticationForm(BootstrapForm, BaseAuthenticationForm):
 
 
 class PasswordChangeForm(BootstrapForm, BasePasswordChangeForm):
+    pass
+
+
+class PasswordResetForm(BootstrapForm, BasePasswordResetForm):
     pass

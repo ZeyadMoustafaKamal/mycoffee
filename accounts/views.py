@@ -2,17 +2,23 @@ import threading  # TODO: Use celery instead of threading
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView as BaseLoginView
-from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.contrib.auth.views import PasswordChangeView as BasePasswordChangeView
+
+from django.contrib.auth.views import (  # isort: split
+    LoginView as BaseLoginView,
+    LogoutView as BaseLogoutView,
+    PasswordChangeView as BasePasswordChangeView,
+    PasswordResetView as BasePasswordResetView,
+    PasswordResetConfirmView as BasePasswordResetConfirmView
+)
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 
+from core.mixins import SuccessMessageMixin
 from htmx.base import HTMXRedirect, render_htmx
 from htmx.mixins import HTMXRedirectMixin, HTMXTemplateMixin
 
-from .forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
+from .forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, UserCreationForm
 from .utils import get_user_from_uidb64, send_activation_token
 
 User = get_user_model()
@@ -103,13 +109,32 @@ class LogoutView(HTMXTemplateMixin, BaseLogoutView):
 class PasswordChangeView(
     HTMXTemplateMixin,
     HTMXRedirectMixin,
+    SuccessMessageMixin,
     BasePasswordChangeView
 ):
     template_name = 'registration/password_change.html'
     htmx_template = 'registration/parts/_password_change.html'
     form_class = PasswordChangeForm
     success_url = reverse_lazy('index')
+    success_message = 'Your password changed successfully'
 
-    def form_valid(self, form):
-        messages.success(self.request, 'Your password changed successfully')
-        return super().form_valid(form)
+
+class PasswordResetView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    BasePasswordResetView
+):
+    template_name = 'registration/password_reset.html'
+    htmx_template = 'registration/parts/_password_reset.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('index')
+
+
+class PasswordResetConfirmView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    SuccessMessageMixin,
+    BasePasswordResetConfirmView
+):
+    success_url = reverse_lazy('index')
+    success_message = 'Your password changed successfully'
