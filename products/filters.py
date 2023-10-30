@@ -1,5 +1,5 @@
-from django.db.models import Q
 import django_filters
+from django.db.models import Q
 
 from .models import Product
 

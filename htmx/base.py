@@ -1,7 +1,7 @@
+import json
+
 from django.http.response import HttpResponseRedirectBase
 from django.shortcuts import render
-
-import json
 
 
 class HTMXRedirect(HttpResponseRedirectBase):

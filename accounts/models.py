@@ -1,7 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 from products.models import Product
+
+from .tokens import account_activation_token_generator
 
 
 class User(AbstractUser):
@@ -10,6 +12,12 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ()
+
+    def activate_from_token(self, token):
+        if account_activation_token_generator.check_token(self, token):
+            self.is_active = True
+            self.save()
+        return self.is_active
 
 
 class UserProfile(models.Model):

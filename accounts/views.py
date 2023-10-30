@@ -1,23 +1,28 @@
-from django.shortcuts import redirect
-from django.http import HttpRequest
-from django.urls import reverse, reverse_lazy
-from django.contrib.auth import get_user_model, login as auth_login
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth.views import (
-    LoginView as BaseLoginView,
-    LogoutView as BaseLogoutView
-)
-from django.contrib import messages
-
-from htmx.base import render_htmx, HTMXRedirect
-from htmx.mixins import HTMXTemplateMixin
-
-from .forms import UserCreationForm, AuthenticationForm
-from .utils import send_activation_token
-from .tokens import account_activation_token_generator
-
 import threading  # TODO: Use celery instead of threading
+
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+
+from django.contrib.auth.views import (  # isort: split
+    LoginView as BaseLoginView,
+    LogoutView as BaseLogoutView,
+    PasswordChangeView as BasePasswordChangeView,
+    PasswordResetView as BasePasswordResetView,
+    PasswordResetConfirmView as BasePasswordResetConfirmView
+)
+from django.forms.models import model_to_dict
+from django.http import HttpRequest
+from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import UpdateView
+
+from core.mixins import SuccessMessageMixin
+from htmx.base import HTMXRedirect, render_htmx
+from htmx.mixins import HTMXRedirectMixin, HTMXTemplateMixin
+
+from .forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, UserCreationForm, UserUpdateForm
+from .models import UserProfile
+from .utils import get_user_from_uidb64, send_activation_token
 
 User = get_user_model()
 
@@ -51,17 +56,12 @@ def confirm_email(request):
 
 
 def activate_email(request, uidb64, token):
-    try:
-        uid = urlsafe_base64_decode(force_str(uidb64))
-        user = User.objects.get(pk=uid)
-    except (User.DoesNotExist, TypeError, ValueError, OverflowError):
+    user = get_user_from_uidb64(uidb64)
+    if user is None:
         messages.error(request, "This URL is invalid or expired please try again later !!")
         return redirect(reverse('index'))
-
     if request.method == 'POST':
-        if account_activation_token_generator.check_token(user, token):
-            user.is_active = True
-            user.save()
+        if user.activate_from_token(token):
             messages.success(request, "This account is activated successfully you can login now !!")
             return HTMXRedirect(reverse('index'))
         else:
@@ -76,7 +76,11 @@ def activate_email(request, uidb64, token):
     )
 
 
-class LoginView(HTMXTemplateMixin, BaseLoginView):
+class LoginView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    BaseLoginView
+):
     form_class = AuthenticationForm
     htmx_template = 'registration/parts/_login.html'
 
@@ -84,11 +88,6 @@ class LoginView(HTMXTemplateMixin, BaseLoginView):
         if 'remember' not in request.POST:
             request.session.set_expiry(0)
         return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        auth_login(self.request, form.get_user())
-        path = self.get_success_url()
-        return HTMXRedirect(path)
 
 
 class LogoutView(HTMXTemplateMixin, BaseLogoutView):
@@ -108,3 +107,60 @@ class LogoutView(HTMXTemplateMixin, BaseLogoutView):
         # This will be useful if django added some functionality to this view
         super().post(request, *args, **kwargs)
         return HTMXRedirect(self.success_url)
+
+
+class PasswordChangeView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    SuccessMessageMixin,
+    BasePasswordChangeView
+):
+    template_name = 'registration/password_change.html'
+    htmx_template = 'registration/parts/_password_change.html'
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('index')
+    success_message = 'Your password changed successfully'
+
+
+class PasswordResetView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    BasePasswordResetView
+):
+    template_name = 'registration/password_reset.html'
+    htmx_template = 'registration/parts/_password_reset.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('index')
+
+
+class PasswordResetConfirmView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    SuccessMessageMixin,
+    BasePasswordResetConfirmView
+):
+    success_url = reverse_lazy('index')
+    success_message = 'Your password changed successfully'
+
+
+class UserUpdateView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    SuccessMessageMixin,
+    UpdateView
+):
+    form_class = UserUpdateForm
+    template_name = 'registration/user_update.html'
+    htmx_template = 'registration/parts/_user_update.html'
+    success_message = 'Your information updated successfully'
+    success_url = reverse_lazy('profile')
+
+    def get_initial(self):
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        user_initial = model_to_dict(self.request.user, fields=['first_name', 'last_name'])
+        profile_intial = model_to_dict(user_profile, exclude='favourites')
+        initial_data = user_initial | profile_intial
+        return initial_data
+
+    def get_object(self, queryset=None):
+        return self.request.user

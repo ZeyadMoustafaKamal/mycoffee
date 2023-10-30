@@ -10,10 +10,14 @@ build==1.0.3
     # via pip-tools
 certifi==2023.7.22
     # via requests
+cfgv==3.4.0
+    # via pre-commit
 charset-normalizer==3.2.0
     # via requests
 click==8.1.7
     # via pip-tools
+distlib==0.3.7
+    # via virtualenv
 django==4.2.5
     # via
     #   -r requirements.in
@@ -26,14 +30,16 @@ django-filter==23.2
     # via -r requirements.in
 django-htmx==1.16.0
     # via -r requirements.in
-flake8==6.1.0
-    # via -r requirements-dev.in
+filelock==3.12.4
+    # via virtualenv
 gunicorn==21.2.0
     # via -r requirements.in
+identify==2.5.30
+    # via pre-commit
 idna==3.4
     # via requests
-mccabe==0.7.0
-    # via flake8
+nodeenv==1.8.0
+    # via pre-commit
 packaging==23.1
     # via
     #   build
@@ -42,16 +48,18 @@ pillow==10.0.1
     # via -r requirements.in
 pip-tools==7.3.0
     # via -r requirements-dev.in
+platformdirs==3.11.0
+    # via virtualenv
+pre-commit==3.5.0
+    # via -r requirements-dev.in
 psycopg2-binary==2.9.7
     # via -r requirements.in
-pycodestyle==2.11.1
-    # via flake8
-pyflakes==3.1.0
-    # via flake8
 pyproject-hooks==1.0.0
     # via build
 python-dotenv==1.0.0
     # via -r requirements.in
+pyyaml==6.0.1
+    # via pre-commit
 requests==2.31.0
     # via -r requirements.in
 sqlparse==0.4.4
@@ -67,6 +75,8 @@ typing-extensions==4.8.0
     # via asgiref
 urllib3==2.0.4
     # via requests
+virtualenv==20.24.6
+    # via pre-commit
 wheel==0.41.2
     # via pip-tools
 
