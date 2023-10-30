@@ -10,15 +10,18 @@ from django.contrib.auth.views import (  # isort: split
     PasswordResetView as BasePasswordResetView,
     PasswordResetConfirmView as BasePasswordResetConfirmView
 )
+from django.forms.models import model_to_dict
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.views.generic import UpdateView
 
 from core.mixins import SuccessMessageMixin
 from htmx.base import HTMXRedirect, render_htmx
 from htmx.mixins import HTMXRedirectMixin, HTMXTemplateMixin
 
-from .forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, UserCreationForm
+from .forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, UserCreationForm, UserUpdateForm
+from .models import UserProfile
 from .utils import get_user_from_uidb64, send_activation_token
 
 User = get_user_model()
@@ -138,3 +141,26 @@ class PasswordResetConfirmView(
 ):
     success_url = reverse_lazy('index')
     success_message = 'Your password changed successfully'
+
+
+class UserUpdateView(
+    HTMXTemplateMixin,
+    HTMXRedirectMixin,
+    SuccessMessageMixin,
+    UpdateView
+):
+    form_class = UserUpdateForm
+    template_name = 'registration/user_update.html'
+    htmx_template = 'registration/parts/_user_update.html'
+    success_message = 'Your information updated successfully'
+    success_url = reverse_lazy('profile')
+
+    def get_initial(self):
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        user_initial = model_to_dict(self.request.user, fields=['first_name', 'last_name'])
+        profile_intial = model_to_dict(user_profile, exclude='favourites')
+        initial_data = user_initial | profile_intial
+        return initial_data
+
+    def get_object(self, queryset=None):
+        return self.request.user

@@ -1,0 +1,33 @@
+{% load bootstrap %}
+<div class="my-form container p-5 my-5 rounded border border-warning">
+    <title>Profile</title>
+    <form method="POST" hx-post="." hx-target="#content">{% csrf_token %}
+        <h2 class="text-center">My profile</h2><hr>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.first_name|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-6">
+                    {{form.last_name|as_bootstrap}}
+                </div>
+            </div>
+            <div class="form-group">
+                {{form.address1|as_bootstrap}}
+            </div>
+            <div class="form-group">
+                {{form.address2|as_bootstrap}}
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{form.city|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-4">
+                    {{form.state|as_bootstrap}}
+                </div>
+                <div class="form-group col-md-2">
+                    {{form.zip_code|as_bootstrap}}
+                </div>
+            </div>
+        <button type="submit" class="btn btn-warning">Update</button>
+    </form>
+</div>
