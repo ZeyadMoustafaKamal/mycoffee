@@ -1,0 +1,30 @@
+
+<div class="container p-4 my-5 rounded border border-warning">
+    {% if orders %}
+        <table class="table table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <th scope="row">{{order.id}}</th>
+                    <td>{{order.product.name}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.get_status}}</td>
+                    <td>{{order.get_total}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>The cart is empty</p>
+    {% endif %}
+</div>
+    

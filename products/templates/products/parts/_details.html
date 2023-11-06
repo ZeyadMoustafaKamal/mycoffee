@@ -18,7 +18,7 @@
                         <hr>
                         <p class="card-text">Current Price: <span id="price" class="bg-dark text-light rounded-circle p-2">${{product.price}}</span></p>
                         <hr>
-                        <button type="submit" class="btn btn-warning">Add To Cart</button>
+                        <a type="button" href="{% url 'add_to_cart' id=product.id %}" class="btn btn-warning">Add To Cart</a>
                         <button type="submit" name="favourite" class="btn btn-warning text-white">
                           <i id="favouriteIcon" class="icon-star-{% if is_favourite %}full{% else %}empty{% endif %} "></i>
                         </button>

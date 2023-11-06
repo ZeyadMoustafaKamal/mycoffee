@@ -13,7 +13,7 @@ class RandomField(models.Field):
 
     def pre_save(self, model_instance, add):
         if add:
-            value = ''.join(random.choice(self.allowd_chars) for _ in range(self.length))
+            value = ''.join(random.choices(self.allowd_chars, k=self.lenght))
             setattr(model_instance, self.attname, value)
         else:
             getattr(model_instance, self.attname)
