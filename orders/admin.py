@@ -8,7 +8,6 @@ class OrderItemInline(admin.StackedInline):
     model = OrderItem
     exclude = 'price', 'discounted_price'
     readonly_fields = [
-        'id',
         'order',
         'product',
         'get_price',
@@ -33,7 +32,7 @@ class OrderItemInline(admin.StackedInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = 'id', 'user', 'created_at'
+    readonly_fields = 'id', 'user', 'get_total', 'created_at'
     inlines = [OrderItemInline]
     ordering = ['-created_at']
     list_filter = ['status']
@@ -44,15 +43,26 @@ class OrderAdmin(admin.ModelAdmin):
         """
         return settings.DEBUG
 
+    def has_delete_permission(self, request, obj=None):
+        return settings.DEBUG
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not settings.DEBUG:
-            # Don't show orders that is still in user's cart
-            qs = qs.filter(cart=None)
+        qs = qs.filter(cart=None)
         return qs.select_related('user').prefetch_related('items')
 
     def get_object(self, request, object_id, from_field=None):
         return super().get_object(request, object_id, from_field)
+
+    def get_total(self, obj):
+        return obj.get_total
+    get_total.short_description = 'Total price'
+
+    def _changeform_view(self, request, object_id, form_url, extra_context):
+        res = super()._changeform_view(request, object_id, form_url, extra_context)
+
+        # print(res.context_data.get('errors').as_json())
+        return res
 
 
 admin.site.register(Order, OrderAdmin)

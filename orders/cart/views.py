@@ -1,4 +1,6 @@
-from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.views.generic import ListView, View
 
 from htmx.mixins import HTMXTemplateMixin
 from orders.models import Order
@@ -24,7 +26,7 @@ class CartView(
 
     def get_queryset(self):
         order = self.get_order()
-        if order is not None:
+        if order:
             return order.items.all().select_related('product', 'order')
         return Order.objects.none()
 
@@ -36,3 +38,12 @@ class CartView(
             self._order = order
             return self._order
         return Order.objects.none()
+
+
+class CheckoutView(LoginRequiredMixin, View):
+    def post(self, *args, **kwargs):
+        cart = self.request.user.get_cart()
+        if cart.order is not None:
+            cart.order = None
+            cart.save()
+        return redirect('index')
