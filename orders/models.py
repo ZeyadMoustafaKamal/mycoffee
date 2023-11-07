@@ -16,7 +16,7 @@ class Order(models.Model):
         shipped = 'Shipped'
         done = 'Done'
         canceled = 'Canceled'
-    id = RandomField(primary_key=True)
+    id = RandomField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=StatusChoices.choices, default=StatusChoices.pending)
@@ -32,7 +32,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    id = RandomField(primary_key=True)
+    id = RandomField(primary_key=True, editable=False)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2)  # The price if there is no discount

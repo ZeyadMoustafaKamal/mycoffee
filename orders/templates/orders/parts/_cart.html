@@ -23,9 +23,12 @@
             {% endfor %}
         </tbody>
     </table>
-    <h4>Total: {{order.get_total}}</h4>
+    <h4>Total: {{order.get_total}}</h4><br>
+    <form hx-post="{% url 'checkout' %}">{% csrf_token %}
+        <input type="submit" value="Checkout" class="btn btn-warning">
+    </form>
     {% else %}
-        <p>The cart is empty</p>
+        <h3>The cart is empty</h3>
     {% endif %}
 </div>
     
