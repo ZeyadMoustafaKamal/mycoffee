@@ -8,6 +8,7 @@ class OrderItemInline(admin.StackedInline):
     model = OrderItem
     exclude = 'price', 'discounted_price'
     readonly_fields = [
+        'id',
         'order',
         'product',
         'get_price',
@@ -32,14 +33,26 @@ class OrderItemInline(admin.StackedInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = 'user', 'created_at'
+    readonly_fields = 'id', 'user', 'created_at'
     inlines = [OrderItemInline]
+    ordering = ['-created_at']
+    list_filter = ['status']
 
     def has_add_permission(self, request):
         """ Great right ??
-        Now even the superusers can't create new orders from the admin panel when it goes to production
+        Now even superusers can't create new orders from the admin panel when it goes to production
         """
         return settings.DEBUG
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not settings.DEBUG:
+            # Don't show orders that is still in user's cart
+            qs = qs.filter(cart=None)
+        return qs.select_related('user').prefetch_related('items')
+
+    def get_object(self, request, object_id, from_field=None):
+        return super().get_object(request, object_id, from_field)
 
 
 admin.site.register(Order, OrderAdmin)
