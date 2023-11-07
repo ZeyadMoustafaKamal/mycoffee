@@ -1,0 +1,13 @@
+<div class="my-form container p-4 my-5 rounded border border-warning">
+    <form method="POST" hx-post="." hx-target="#content"> {% csrf_token %}
+        <h2 class="text-center">Add to cart</h2>
+        <hr>
+        {% with field=form.quantity %}
+            <div class="form-group">
+                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                {{field}}
+            </div>
+        {% endwith %}
+        <button type="submit" class="btn btn-warning">Add to cart</button>
+    </form>
+</div>

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'products',
+    'orders',
 
     # Third party
     'django_filters',
