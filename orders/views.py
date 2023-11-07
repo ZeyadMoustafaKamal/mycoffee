@@ -1,14 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView
 
 from core.mixins import SuccessMessageMixin
 from htmx.mixins import HTMXRedirectMixin, HTMXTemplateMixin
 from products.models import Product
 
 from .forms import AddToCartForm
-from .models import Order
 
 
 class AddToCartView(
@@ -44,19 +43,3 @@ class AddToCartView(
         quantity = form.cleaned_data.get('quantity')
         msg = 'Added %s "%s" to your cart' % (quantity, self.get_product().name)
         return msg
-
-
-class CartView(
-    HTMXTemplateMixin,
-    ListView
-):
-    """ A class to view the OrderItems in the cart """
-    template_name = 'orders/cart.html'
-    htmx_template = 'orders/parts/_cart.html'
-    context_object_name = 'orders'
-
-    def get_queryset(self):
-        order = self.request.user.cart.order
-        if order is not None:
-            return order.items.all().select_related('product')
-        return Order.objects.none()

@@ -1,27 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from orders.cart.models import Cart  # noqa: F401
 from products.models import Product
 
 from .fields import RandomField
 from .managers import OrderManager
 
 User = get_user_model()
-
-
-class Cart(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name='cart'
-    )
-    # This is OneToOne field because every time the user will be able to make one order
-    # and every order can have more than one OrderItem instance so that the process may be easier
-    order = models.OneToOneField('Order', on_delete=models.CASCADE, null=True)
-
-    def empty_cart(self):
-        self.order = None
-        self.save()
 
 
 class Order(models.Model):
@@ -39,6 +25,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name}, {self.status}'
+
+    @property
+    def get_total(self):
+        return sum([item.get_total for item in self.items.all()])
 
 
 class OrderItem(models.Model):
