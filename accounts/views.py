@@ -2,6 +2,7 @@ import threading  # TODO: Use celery instead of threading
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.views import (  # isort: split
     LoginView as BaseLoginView,
@@ -113,6 +114,7 @@ class PasswordChangeView(
     HTMXTemplateMixin,
     HTMXRedirectMixin,
     SuccessMessageMixin,
+    LoginRequiredMixin,
     BasePasswordChangeView
 ):
     template_name = 'registration/password_change.html'
@@ -120,6 +122,7 @@ class PasswordChangeView(
     form_class = PasswordChangeForm
     success_url = reverse_lazy('index')
     success_message = 'Your password changed successfully'
+    login_url = reverse_lazy('login')
 
 
 class PasswordResetView(
@@ -147,6 +150,7 @@ class UserUpdateView(
     HTMXTemplateMixin,
     HTMXRedirectMixin,
     SuccessMessageMixin,
+    LoginRequiredMixin,
     UpdateView
 ):
     form_class = UserUpdateForm
@@ -154,6 +158,7 @@ class UserUpdateView(
     htmx_template = 'registration/parts/_user_update.html'
     success_message = 'Your information updated successfully'
     success_url = reverse_lazy('profile')
+    login_url = reverse_lazy('login')
 
     def get_initial(self):
         user_profile = UserProfile.objects.get(user=self.request.user)
