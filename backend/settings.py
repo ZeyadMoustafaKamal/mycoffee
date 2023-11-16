@@ -81,32 +81,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-
-    }
-}
-
-
 POSTGRES_NAME = os.environ.get('POSTGRES_USER')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 POSTGRES_DB = os.environ.get('POSTGRES_DB')
 
-# Assume that the other devs may don't want to use docker with postgres
-if POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'USER': POSTGRES_NAME,
-            'PASSWORD': POSTGRES_PASSWORD,
-            'NAME': POSTGRES_NAME,
-            'HOST': 'db',
-            'PORT': 5432
+assert POSTGRES_NAME and POSTGRES_PASSWORD and POSTGRES_DB, 'There is an error in your database conf'
 
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': POSTGRES_NAME,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'NAME': POSTGRES_DB,
+        'HOST': 'db',
+        'PORT': 5432
+
     }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
