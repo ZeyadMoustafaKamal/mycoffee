@@ -1,8 +1,7 @@
-version: '3.11'
-
 services:
   web:
     build: .
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./:/app/
     ports:
@@ -10,9 +9,11 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=db    
+      - POSTGRES_DB=db
     depends_on:
       - db
+      - rabbitmq
+
   db:
     image: postgres:15-alpine
     volumes:
@@ -21,5 +22,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=db
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 volumes:
   postgres_data:
+  rabbitmq_data:

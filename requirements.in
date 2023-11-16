@@ -6,3 +6,4 @@ django-filter
 pillow
 gunicorn
 django-htmx
+celery
