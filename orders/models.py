@@ -19,7 +19,7 @@ class Order(models.Model):
     id = RandomField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(choices=StatusChoices.choices, default=StatusChoices.pending)
+    status = models.CharField(max_length=100, choices=StatusChoices.choices, default=StatusChoices.pending)
 
     objects = OrderManager()
 
