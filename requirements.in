@@ -7,3 +7,4 @@ pillow
 gunicorn
 django-htmx
 celery
+weasyprint
