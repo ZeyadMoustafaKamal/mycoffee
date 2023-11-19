@@ -164,6 +164,9 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+# celery conf
+CELERY_BROKER_URL = 'amqp://user:password@rabbitmq:5672/'
+
 # extra conf
 
 LOGIN_REDIRECT_URL = 'index'
