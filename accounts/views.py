@@ -1,5 +1,3 @@
-import threading  # TODO: Use celery instead of threading
-
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,7 +35,7 @@ def signup(request: HttpRequest):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            threading.Thread(target=send_activation_token, args=(request, user)).start()
+            send_activation_token.delay(request, user)
             return HTMXRedirect(reverse('confirm_email'))
     context = {'form': form}
     return render_htmx(
