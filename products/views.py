@@ -22,17 +22,16 @@ class ListProductsView(HTMXTemplateMixin, FilterView):
 
 def product_details(request, pk):
 
-    # TODO: Optimize the performance here (even if I do think that it can't be optimized more)
-
-    profile: UserProfile = UserProfile.objects.prefetch_related('favourites').get(user=request.user) \
-        if request.user.is_authenticated else None
     product = get_object_or_404(Product, pk=pk)
+    is_favourite = False
 
-    is_favourite = False if request.user.is_anonymous or 'favourite' in request.POST else \
-        product in profile.favourites.all()
+    if request.user.is_authenticated:
+        profile = UserProfile.objects.prefetch_related('favourites').get(user=request.user)
 
-    if 'favourite' in request.POST and request.user.is_authenticated:
-        is_favourite = profile.toggle_product(product)
+        is_favourite = product in profile.favourites.all()
+        if 'favourite' in request.POST:
+            is_favourite = profile.toggle_product(product)
+
     context = {
         'product': product,
         'is_favourite': is_favourite
