@@ -3,6 +3,7 @@
 /static/
 /test.py
 /test.htm
+/media/reports/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

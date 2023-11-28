@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'orders',
+    'reports',
 
     # Third party
     'django_filters',
@@ -163,6 +164,9 @@ if DEBUG:
     # TODO: Update this to fit both local and production
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+# celery conf
+CELERY_BROKER_URL = 'amqp://user:password@rabbitmq:5672/'
 
 # extra conf
 

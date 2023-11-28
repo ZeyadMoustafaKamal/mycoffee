@@ -4,7 +4,7 @@ from django_htmx.middleware import HtmxMiddleware as BaseHTMXMiddeware
 
 class HTMXMiddleware(BaseHTMXMiddeware):
     def __call__(self, request):
-        if not self._is_coroutine:
+        if not self.async_mode:
             request.htmx = HTMXDetails(request)
             return self.get_response(request)
         return super().__call__()
