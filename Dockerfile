@@ -7,8 +7,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN pip install --upgrade pip && \
-    apk add --no-cache py3-pip py3-pillow py3-cffi py3-brotli gcc musl-dev python3-dev pango
-
+    apk add --no-cache gcc musl-dev python3-dev pango fontconfig ttf-freefont font-noto terminus-font \
+    && fc-cache -f \ 
+    && fc-list | sort
 
 COPY ./requirements-dev.txt /app
 

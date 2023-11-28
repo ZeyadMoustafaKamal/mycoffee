@@ -25,12 +25,15 @@ def generate_report(report_id):
     profit_this_month = sum([order.get_total for order in orders_done_this_month])
 
     context = {
-        'users_last_month': users_this_month,
-        'users_last_28_days': users_last_28_days,
-        'orders_done_this_month': orders_done_this_month,
+        'users_last_month': users_this_month.count(),
+        'users_last_28_days': users_last_28_days.count(),
+        'orders_done_this_month': orders_done_this_month.count(),
         'profile_this_month': profit_this_month
     }
     report_string = render_to_string('reports/report_template.html', context=context)
     pdf_file = HTML(string=report_string).write_pdf()
+
     report = Report.objects.get(id=report_id)
-    report.pdf_file.save('report.pdf', ContentFile(pdf_file))
+    report.pdf_file.save('report.pdf', ContentFile(pdf_file), False)
+    report.stage = report.StageChoices.done
+    report.save()
