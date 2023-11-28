@@ -11,13 +11,7 @@ class Report(models.Model):
 
     pdf_file = models.FileField(max_length=200, null=True, blank=True, upload_to='reports')
     stage = models.CharField(max_length=100, choices=StageChoices.choices, default=StageChoices.preparing)
-    requested_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='requested_reports')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.stage}, {self.created_at}'
-
-    @property
-    def source(self):
-        """ Who started this report generation """
-        return self.requested_by or 'Automatecly'
