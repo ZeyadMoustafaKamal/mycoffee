@@ -14,16 +14,12 @@ billiard==4.2.0
     # via celery
 brotli==1.1.0
     # via fonttools
-build==1.0.3
-    # via pip-tools
 celery==5.3.5
     # via -r requirements.in
 certifi==2023.11.17
     # via requests
 cffi==1.16.0
     # via weasyprint
-cfgv==3.4.0
-    # via pre-commit
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
@@ -32,7 +28,6 @@ click==8.1.7
     #   click-didyoumean
     #   click-plugins
     #   click-repl
-    #   pip-tools
 click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
@@ -41,8 +36,6 @@ click-repl==0.3.0
     # via celery
 cssselect2==0.7.0
     # via weasyprint
-distlib==0.3.7
-    # via virtualenv
 django==4.2.7
     # via
     #   -r requirements.in
@@ -55,8 +48,6 @@ django-filter==23.4
     # via -r requirements.in
 django-htmx==1.17.2
     # via -r requirements.in
-filelock==3.13.1
-    # via virtualenv
 fonttools[woff]==4.45.0
     # via
     #   fonttools
@@ -65,28 +56,16 @@ gunicorn==21.2.0
     # via -r requirements.in
 html5lib==1.1
     # via weasyprint
-identify==2.5.32
-    # via pre-commit
 idna==3.4
     # via requests
 kombu==5.3.4
     # via celery
-nodeenv==1.8.0
-    # via pre-commit
 packaging==23.2
-    # via
-    #   build
-    #   gunicorn
+    # via gunicorn
 pillow==10.1.0
     # via
     #   -r requirements.in
     #   weasyprint
-pip-tools==7.3.0
-    # via -r requirements-dev.in
-platformdirs==3.11.0
-    # via virtualenv
-pre-commit==3.5.0
-    # via -r requirements-dev.in
 prompt-toolkit==3.0.41
     # via click-repl
 psycopg2-binary==2.9.9
@@ -97,14 +76,10 @@ pydyf==0.8.0
     # via weasyprint
 pyphen==0.14.0
     # via weasyprint
-pyproject-hooks==1.0.0
-    # via build
 python-dateutil==2.8.2
     # via celery
 python-dotenv==1.0.0
     # via -r requirements.in
-pyyaml==6.0.1
-    # via pre-commit
 requests==2.31.0
     # via -r requirements.in
 six==1.16.0
@@ -119,11 +94,6 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   weasyprint
-tomli==2.0.1
-    # via
-    #   build
-    #   pip-tools
-    #   pyproject-hooks
 typing-extensions==4.8.0
     # via asgiref
 tzdata==2023.3
@@ -135,8 +105,6 @@ vine==5.1.0
     #   amqp
     #   celery
     #   kombu
-virtualenv==20.24.6
-    # via pre-commit
 wcwidth==0.2.11
     # via prompt-toolkit
 weasyprint==60.1
@@ -146,11 +114,5 @@ webencodings==0.5.1
     #   cssselect2
     #   html5lib
     #   tinycss2
-wheel==0.41.3
-    # via pip-tools
 zopfli==0.2.3
     # via fonttools
-
-# The following packages are considered to be unsafe in a requirements file:
-# pip
-# setuptools
