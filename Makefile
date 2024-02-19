@@ -3,10 +3,10 @@
 
 lock:
 	@echo compiling requirements.in file
-	@uv pip compile requirements.in -o requirements.txt
+	@uv pip compile --upgrade -o requirements.txt requirements.in
 	
 	@echo compiling requirements-dev.in file
-	@uv pip compile requirements-dev.in -o requirements-dev.txt
+	@uv pip compile --upgrade -o requirements-dev.txt requirements-dev.in
 	
 	@echo finished successfuly
 
