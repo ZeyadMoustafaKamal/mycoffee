@@ -2,7 +2,7 @@
 
 PIP_COMPILE = pip-compile
 
-compile_libs:
+lock:
 	@echo compiling requirements.in file
 	${PIP_COMPILE}
 	@echo compiling requirements-dev.in file
