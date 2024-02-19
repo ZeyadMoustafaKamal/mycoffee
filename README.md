@@ -24,6 +24,6 @@
 - [x] Use HTMX in order to make the website feel like SPA applications
 - [x] Customize the admin panel 
 - [x] Add reports system that uses celery
-- [ ] integrate djagno rest framework
+- [ ] integrate django rest framework
 - [ ] Add unit test in order to test the website in a good way
 - [ ] Split docker and settings for local and production
