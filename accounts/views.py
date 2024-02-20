@@ -10,7 +10,6 @@ from django.contrib.auth.views import (  # isort: split
     PasswordResetConfirmView as BasePasswordResetConfirmView
 )
 from django.forms.models import model_to_dict
-from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import UpdateView
@@ -26,7 +25,7 @@ from .utils import get_user_from_uidb64, send_activation_token
 User = get_user_model()
 
 
-def signup(request: HttpRequest):
+def signup(request):
     if request.user.is_authenticated:
         return redirect('index')
     form = UserCreationForm(request.POST or None)
