@@ -1,5 +1,3 @@
-# TODO: change this to fit windows, max, linux
-
 
 lock:
 	@echo compiling requirements.in file
