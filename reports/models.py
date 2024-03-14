@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class Report(models.Model):
-    class StageChoices(models.Choices):
+    class StageChoices(models.TextChoices):
         preparing = 'Preparing'
         done = 'Done'
 
