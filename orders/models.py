@@ -11,7 +11,7 @@ User = get_user_model()
 
 
 class Order(models.Model):
-    class StatusChoices(models.Choices):
+    class StatusChoices(models.TextChoices):
         pending = 'Pending'
         shipped = 'Shipped'
         done = 'Done'
