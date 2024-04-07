@@ -2,7 +2,7 @@
 #    uv pip compile -o requirements.txt requirements.in
 amqp==5.2.0
     # via kombu
-asgiref==3.7.2
+asgiref==3.8.1
     # via
     #   django
     #   django-htmx
@@ -23,7 +23,7 @@ click==8.1.7
     #   click-didyoumean
     #   click-plugins
     #   click-repl
-click-didyoumean==0.3.0
+click-didyoumean==0.3.1
     # via celery
 click-plugins==1.1.1
     # via celery
@@ -35,25 +35,25 @@ django==4.2.11
     # via
     #   django-filter
     #   django-htmx
-django-filter==24.1
+django-filter==24.2
 django-htmx==1.17.3
-fonttools==4.49.0
+fonttools==4.51.0
     # via weasyprint
 gunicorn==21.2.0
 html5lib==1.1
     # via weasyprint
 idna==3.6
     # via requests
-kombu==5.3.5
+kombu==5.3.6
     # via celery
 packaging==24.0
     # via gunicorn
-pillow==10.2.0
+pillow==10.3.0
     # via weasyprint
 prompt-toolkit==3.0.43
     # via click-repl
 psycopg2-binary==2.9.9
-pycparser==2.21
+pycparser==2.22
     # via cffi
 pydyf==0.9.0
     # via weasyprint
@@ -73,7 +73,7 @@ tinycss2==1.2.1
     # via
     #   cssselect2
     #   weasyprint
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via asgiref
 tzdata==2024.1
     # via celery
