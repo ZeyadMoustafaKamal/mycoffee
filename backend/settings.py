@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     # Third party
     'django_filters',
     'django_htmx',
+    'rest_framework',
+    'djoser',
 ]
 
 
@@ -167,6 +169,14 @@ if DEBUG:
 
 # celery conf
 CELERY_BROKER_URL = 'amqp://user:password@rabbitmq:5672/'
+
+# rest framework conf
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # extra conf
 
