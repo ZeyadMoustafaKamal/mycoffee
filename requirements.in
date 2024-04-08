@@ -10,3 +10,4 @@ celery
 weasyprint
 djangorestframework
 djangorestframework-simplejwt
+djoser
