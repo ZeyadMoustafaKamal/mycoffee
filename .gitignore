@@ -5,6 +5,7 @@
 /test.htm
 /media/reports/
 frontend/
+.tokens
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
