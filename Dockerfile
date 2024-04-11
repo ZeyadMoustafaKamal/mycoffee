@@ -6,8 +6,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN pip install --upgrade pip && \
-    apk add --no-cache gcc musl-dev python3-dev pango fontconfig ttf-freefont font-noto terminus-font \
+RUN pip install --no-cache-dir --upgrade pip && \
+    apk add --no-cache pango fontconfig ttf-freefont font-noto terminus-font \
     && fc-cache -f \ 
     && fc-list | sort
 
