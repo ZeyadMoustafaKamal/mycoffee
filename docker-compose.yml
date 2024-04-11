@@ -37,7 +37,7 @@ services:
     - ./:/app/
     env_file:
       - .env.dev
-    command: celery -A backend worker -l INFO
+    command: celery -A mycoffee worker -l INFO
     
     depends_on:
       - web

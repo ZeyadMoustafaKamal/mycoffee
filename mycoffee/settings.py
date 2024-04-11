@@ -61,7 +61,7 @@ if DEBUG:
     INTERNAL_IPS = ['127.0.0.1']
     ip = socket.gethostbyname(socket.gethostname())
     INTERNAL_IPS += [ip[:-1] + '1']
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'mycoffee.urls'
 
 TEMPLATES = [
     {
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'mycoffee.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -143,7 +143,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'backend/static'
+    BASE_DIR / 'mycoffee/static'
 ]
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
