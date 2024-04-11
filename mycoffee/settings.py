@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     # Third party
     'django_filters',
     'django_htmx',
+    'rest_framework',
+    'djoser',
 ]
 
 
@@ -167,6 +169,31 @@ if DEBUG:
 
 # celery conf
 CELERY_BROKER_URL = 'amqp://user:password@rabbitmq:5672/'
+
+# rest framework conf
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# djsoer conf
+
+DJOSER = {
+    # if this set to True then the serializer that will be changed is
+    # user_craete not user_create_password_retype. But adding this option
+    # and changing the user_create_password_retype serializer will be good to make it clear
+    # that the user will be prompt to enter the password twice
+    # see https://djoser.readthedocs.io/en/latest/settings.html#user-create-password-retype
+
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SET_USERNAME_RETYPE': True,
+    'SET_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {
+        'user_create_password_retype': 'api.accounts.serializers.CreateUserSerializer',
+    }
+}
 
 # extra conf
 

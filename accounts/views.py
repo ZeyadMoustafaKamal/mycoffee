@@ -9,6 +9,7 @@ from django.contrib.auth.views import (  # isort: split
     PasswordResetView as BasePasswordResetView,
     PasswordResetConfirmView as BasePasswordResetConfirmView
 )
+from django.contrib.sites.shortcuts import get_current_site
 from django.forms.models import model_to_dict
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -34,7 +35,11 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            send_activation_token.delay(request, user)
+            # Passing the request iself is not valid
+            # see https://github.com/ZeyadMoustafaKamal/mycoffee/issues/9
+            domain = get_current_site(request).domain
+            protocol = 'https' if request.is_secure() else 'http'
+            send_activation_token.delay(domain, protocol, user.pk)
             return HTMXRedirect(reverse('confirm_email'))
     context = {'form': form}
     return render_htmx(

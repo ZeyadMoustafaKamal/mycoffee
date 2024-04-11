@@ -8,3 +8,6 @@ gunicorn
 django-htmx
 celery
 weasyprint
+djangorestframework
+djangorestframework-simplejwt
+djoser

@@ -1,6 +1,5 @@
 from celery import shared_task
 from django.contrib.auth import get_user_model
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -12,14 +11,13 @@ User = get_user_model()
 
 
 @shared_task()
-def send_activation_token(request, user):
+def send_activation_token(domain, protocol, user_pk):
     subject = "Activate your account"
+    user = User.objects.get(pk=user_pk)
 
-    domain = get_current_site(request).domain
     name = f'{user.first_name} {user.last_name}'
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    uid = urlsafe_base64_encode(force_bytes(user_pk))
     token = account_activation_token_generator.make_token(user)
-    protocol = 'https' if request.is_secure() else 'http'
     message = render_to_string(
         'registration/activation_email_template.html', {
             'domain': domain,
