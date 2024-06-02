@@ -1,7 +1,14 @@
 from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from api.products.views import ProductsViewset
+
+router = DefaultRouter()
+
+router.register('products', ProductsViewset)
 
 urlpatterns = [
     path('accounts/', include('api.accounts.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-]
+] + router.urls
