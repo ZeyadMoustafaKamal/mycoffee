@@ -10,9 +10,9 @@ billiard==4.2.0
     # via celery
 brotli==1.1.0
     # via fonttools
-celery==5.3.6
+celery==5.4.0
     # via -r requirements/requirements.in
-certifi==2024.2.2
+certifi==2024.6.2
     # via requests
 cffi==1.16.0
     # via
@@ -32,7 +32,7 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.3.0
     # via celery
-cryptography==42.0.5
+cryptography==42.0.7
     # via social-auth-core
 cssselect2==0.7.0
     # via weasyprint
@@ -40,7 +40,7 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==4.2.11
+django==4.2.13
     # via
     #   -r requirements/requirements.in
     #   django-filter
@@ -65,15 +65,15 @@ djangorestframework-simplejwt==5.3.1
     #   djoser
 djoser==2.2.2
     # via -r requirements/requirements.in
-fonttools==4.51.0
+fonttools==4.53.0
     # via weasyprint
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements/requirements.in
 html5lib==1.1
     # via weasyprint
 idna==3.7
     # via requests
-kombu==5.3.6
+kombu==5.3.7
     # via celery
 oauthlib==3.2.2
     # via
@@ -85,19 +85,19 @@ pillow==10.3.0
     # via
     #   -r requirements/requirements.in
     #   weasyprint
-prompt-toolkit==3.0.43
+prompt-toolkit==3.0.45
     # via click-repl
 psycopg2-binary==2.9.9
     # via -r requirements/requirements.in
 pycparser==2.22
     # via cffi
-pydyf==0.9.0
+pydyf==0.10.0
     # via weasyprint
 pyjwt==2.8.0
     # via
     #   djangorestframework-simplejwt
     #   social-auth-core
-pyphen==0.14.0
+pyphen==0.15.0
     # via weasyprint
 python-dateutil==2.9.0.post0
     # via celery
@@ -105,7 +105,7 @@ python-dotenv==1.0.1
     # via -r requirements/requirements.in
 python3-openid==3.2.0
     # via social-auth-core
-requests==2.31.0
+requests==2.32.3
     # via
     #   -r requirements/requirements.in
     #   requests-oauthlib
@@ -116,17 +116,17 @@ six==1.16.0
     # via
     #   html5lib
     #   python-dateutil
-social-auth-app-django==5.4.0
+social-auth-app-django==5.4.1
     # via djoser
-social-auth-core==4.5.3
+social-auth-core==4.5.4
     # via social-auth-app-django
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
-tinycss2==1.2.1
+tinycss2==1.3.0
     # via
     #   cssselect2
     #   weasyprint
-typing-extensions==4.11.0
+typing-extensions==4.12.1
     # via asgiref
 tzdata==2024.1
     # via celery
@@ -139,7 +139,7 @@ vine==5.1.0
     #   kombu
 wcwidth==0.2.13
     # via prompt-toolkit
-weasyprint==61.2
+weasyprint==62.1
     # via -r requirements/requirements.in
 webencodings==0.5.1
     # via
