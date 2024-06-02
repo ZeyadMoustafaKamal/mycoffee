@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     && fc-cache -f \ 
     && fc-list | sort
 
-COPY ./requirements-dev.txt /app
+COPY ./requirements/requirements-dev.txt /app
 
 RUN pip install --no-cache-dir -r requirements-dev.txt
 
