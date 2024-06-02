@@ -8,7 +8,6 @@ router = DefaultRouter()
 router.register('products', ProductsViewset)
 
 urlpatterns = [
-    path('accounts/', include('api.accounts.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ] + router.urls
