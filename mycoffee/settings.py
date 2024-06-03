@@ -61,6 +61,7 @@ if DEBUG:
     INTERNAL_IPS = ['127.0.0.1']
     ip = socket.gethostbyname(socket.gethostname())
     INTERNAL_IPS += [ip[:-1] + '1']
+
 ROOT_URLCONF = 'mycoffee.urls'
 
 TEMPLATES = [
@@ -145,7 +146,11 @@ STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'mycoffee/static'
 ]
+
+# media
+
 MEDIA_ROOT = BASE_DIR / 'media'
+
 MEDIA_URL = 'media/'
 
 # Default primary key field type
