@@ -5,7 +5,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODEULE mycoffee.settings
+ENV DJANGO_SETTINGS_MODULE mycoffee.settings
 
 RUN pip install --no-cache-dir --upgrade pip && \
     apk add --no-cache pango fontconfig ttf-freefont font-noto terminus-font \
